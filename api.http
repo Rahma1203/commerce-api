@@ -1,0 +1,36 @@
+### Obtener todos los comercios
+GET http://localhost:3000/commerces
+
+### Obtener todos los comercios ordenados por CIF
+GET http://localhost:3000/commerces?sort=cif
+
+### Obtener un comercio por CIF
+GET http://localhost:3000/commerces/ABC12345
+
+### Crear un nuevo comercio
+POST http://localhost:3000/commerces
+Content-Type: application/json
+
+{
+    "nombre": "Comercio Ejemplo",
+    "cif": "ABC12345",
+    "direccion": "Calle Falsa 123",
+    "email": "contacto@comercioejemplo.com",
+    "tel": "123456789",
+    "idPagina": 1
+}
+
+### Actualizar un comercio por CIF
+PUT http://localhost:3000/commerces/ABC12345
+Content-Type: application/json
+
+{
+    "direccion": "Avenida Siempre Viva 742",
+    "tel": "987654321"
+}
+
+### Borrar un comercio lógicamente
+DELETE http://localhost:3000/commerces/ABC12345?tipo=logico
+
+### Borrar un comercio físicamente
+DELETE http://localhost:3000/commerces/ABC12345?tipo=fisico
