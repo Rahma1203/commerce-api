@@ -22,6 +22,7 @@ mongoose.connect(process.env.MONGODB_URI, { })
 
 // ROUTES.
 app.use(require("./routes/commerceRoutes.js"));
+app.use(require("./routes/webpageRoutes.js"));
 
 // LISTEN.
 app.listen(PORT, () => {

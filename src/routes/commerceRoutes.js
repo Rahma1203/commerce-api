@@ -1,4 +1,5 @@
 const express = require("express");
+const { query } = require("express-validator");
 const commerceController = require("../controllers/commerceController");
 const { commerceValidators, cifValidator, sortValidator } = require("../validators/commerceValidators");
 

@@ -43,6 +43,7 @@ exports.archiveWebPage = async (req, res) => {
         
         return res.json({ message: "Página archivada exitosamente.", paginaArchivada });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ message: "Error al archivar la página.", error });
     }
 };
