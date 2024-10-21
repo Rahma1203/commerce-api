@@ -1,0 +1,9 @@
+# Development.
+.env
+
+# Development.
+node_modules
+
+# IDE configurations.
+.idea
+.vscode

@@ -1,0 +1,93 @@
+### Obtener una página web por ID
+GET http://localhost:3000/webpages/{id}
+
+### Crear una nueva página web
+POST http://localhost:3000/webpages
+Content-Type: application/json
+
+{
+    "ciudad": "Madrid",
+    "actividad": "Restaurante",
+    "titulo": "Restaurante Ejemplo",
+    "resumen": "Un delicioso restaurante en el corazón de la ciudad.",
+    "textos": [
+        "Texto de ejemplo 1",
+        "Texto de ejemplo 2"
+    ],
+    "imagenes": [],
+    "resenas": {
+        "puntuacion": 4.5,
+        "numeroPuntuaciones": 10,
+        "resenas": ["Excelente servicio", "Comida deliciosa"]
+    }
+}
+
+### Actualizar una página web
+PUT http://localhost:3000/webpages/{id}
+Content-Type: application/json
+
+{
+    "ciudad": "Madrid",
+    "actividad": "Restaurante",
+    "titulo": "Restaurante Ejemplo Actualizado",
+    "resumen": "Actualización del restaurante con nuevos platos.",
+    "textos": [
+        "Texto actualizado 1",
+        "Texto actualizado 2"
+    ],
+    "imagenes": [],
+    "resenas": {
+        "puntuacion": 4.8,
+        "numeroPuntuaciones": 15,
+        "resenas": ["Excelente servicio", "Comida deliciosa"]
+    }
+}
+
+### Archivar una página web
+PATCH http://localhost:3000/webpages/archive/{id}
+
+### Eliminar una página web
+DELETE http://localhost:3000/webpages/{id}
+
+### Subir una imagen al array de imágenes de una página web
+PATCH http://localhost:3000/webpages/PATH/{id}
+Content-Type: multipart/form-data
+
+image=@path/to/your/image.jpg
+
+### Obtener todos los comercios
+GET http://localhost:3000/commerces
+
+### Obtener todos los comercios ordenados por CIF
+GET http://localhost:3000/commerces?sort=cif
+
+### Obtener un comercio por CIF
+GET http://localhost:3000/commerces/ABC12345
+
+### Crear un nuevo comercio
+POST http://localhost:3000/commerces
+Content-Type: application/json
+
+{
+    "nombre": "Comercio Ejemplo",
+    "cif": "ABC12345",
+    "direccion": "Calle Falsa 123",
+    "email": "contacto@comercioejemplo.com",
+    "tel": "123456789",
+    "idPagina": 1
+}
+
+### Actualizar un comercio por CIF
+PUT http://localhost:3000/commerces/ABC12345
+Content-Type: application/json
+
+{
+    "direccion": "Avenida Siempre Viva 742",
+    "tel": "987654321"
+}
+
+### Borrar un comercio lógicamente
+DELETE http://localhost:3000/commerces/ABC12345?tipo=logico
+
+### Borrar un comercio físicamente
+DELETE http://localhost:3000/commerces/ABC12345?tipo=fisico
