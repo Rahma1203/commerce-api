@@ -8,7 +8,7 @@ exports.getWebPageById = async (req, res) => {
         
         return res.json(pagina);
     } catch (error) {
-        return res.status(500).json({ message: "Error al obtener la página" });
+        return res.status(500).json({ message: "Error al obtener la página." });
     }
 };
 
@@ -63,7 +63,7 @@ exports.deleteWebPage = async (req, res) => {
 // Subir una imagen al array de imágenes.
 exports.uploadImage = async (req, res) => {
     try {
-        const webPage = await WebPage.findById(req.params.id);
+        const webPage = await PaginaWeb.findById();
 
         if (!webPage) return res.status(404).json({ message: "Página web no encontrada." });
     

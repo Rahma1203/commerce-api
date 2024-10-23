@@ -1,8 +1,11 @@
+### Variables
+@webPageId="67194902fd82ad3d1fcf24ed"
+
 ### Obtener una página web por ID
-GET http://localhost:3000/webpages/{id}
+GET http://localhost:3000/api/webpages/{{webPageId}}
 
 ### Crear una nueva página web
-POST http://localhost:3000/webpages
+POST http://localhost:3000/api/webpages
 Content-Type: application/json
 
 {
@@ -14,7 +17,7 @@ Content-Type: application/json
         "Texto de ejemplo 1",
         "Texto de ejemplo 2"
     ],
-    "imagenes": [],
+    "imagenes": ["OIP.jpg"],
     "resenas": {
         "puntuacion": 4.5,
         "numeroPuntuaciones": 10,
@@ -23,7 +26,7 @@ Content-Type: application/json
 }
 
 ### Actualizar una página web
-PUT http://localhost:3000/webpages/{id}
+PUT http://localhost:3000/api/webpages/{{webPageId}}
 Content-Type: application/json
 
 {
@@ -35,7 +38,7 @@ Content-Type: application/json
         "Texto actualizado 1",
         "Texto actualizado 2"
     ],
-    "imagenes": [],
+    "imagenes": ["OIP.jpg"],
     "resenas": {
         "puntuacion": 4.8,
         "numeroPuntuaciones": 15,
@@ -44,28 +47,33 @@ Content-Type: application/json
 }
 
 ### Archivar una página web
-PATCH http://localhost:3000/webpages/archive/{id}
+PATCH http://localhost:3000/api/webpages/archive/{{webPageId}}
 
 ### Eliminar una página web
-DELETE http://localhost:3000/webpages/{id}
+DELETE http://localhost:3000/api/webpages/{{webPageId}}
 
 ### Subir una imagen al array de imágenes de una página web
-PATCH http://localhost:3000/webpages/PATH/{id}
+POST http://localhost:3000/api/webpages/uploadImage/{{webPageId}}
 Content-Type: multipart/form-data
 
-image=@path/to/your/image.jpg
+--Boundary
+Content-Disposition: form-data; name="image"; filename="exampleUpload.jpg"
+Content-Type: image/jpeg
+
+< ./src/tests/examplesFiles/exampleUpload.jpg
+--Boundary--
 
 ### Obtener todos los comercios
-GET http://localhost:3000/commerces
+GET http://localhost:3000/api/commerces
 
 ### Obtener todos los comercios ordenados por CIF
-GET http://localhost:3000/commerces?sort=cif
+GET http://localhost:3000/api/commerces?sort=cif
 
 ### Obtener un comercio por CIF
-GET http://localhost:3000/commerces/ABC12345
+GET http://localhost:3000/api/commerces/ABC12345
 
 ### Crear un nuevo comercio
-POST http://localhost:3000/commerces
+POST http://localhost:3000/api/commerces
 Content-Type: application/json
 
 {
@@ -78,7 +86,7 @@ Content-Type: application/json
 }
 
 ### Actualizar un comercio por CIF
-PUT http://localhost:3000/commerces/ABC12345
+PUT http://localhost:3000/api/commerces/ABC12345
 Content-Type: application/json
 
 {
@@ -87,7 +95,7 @@ Content-Type: application/json
 }
 
 ### Borrar un comercio lógicamente
-DELETE http://localhost:3000/commerces/ABC12345?tipo=logico
+DELETE http://localhost:3000/api/commerces/ABC12345?tipo=logico
 
 ### Borrar un comercio físicamente
-DELETE http://localhost:3000/commerces/ABC12345?tipo=fisico
+DELETE http://localhost:3000/api/commerces/ABC12345?tipo=fisico

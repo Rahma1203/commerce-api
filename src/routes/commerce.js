@@ -7,33 +7,33 @@ const router = express.Router();
 
 /**
  * Ruta para obtener todos los comercios, opcionalmente ordenados por CIF
- * URL: /commerces?sort=cif
+ * URL: ?sort=cif
  */
-router.get("/commerces", sortValidator, commerceController.getAllCommerces);
+router.get("/", sortValidator, commerceController.getAllCommerces);
 
 /**
  * Ruta para obtener un comercio por su CIF.
- * URL: /commerces/:cif
+ * URL: /:cif
  */
-router.get("/commerces/:cif", cifValidator, commerceController.getCommerceByCIF);
+router.get("/:cif", cifValidator, commerceController.getCommerceByCIF);
 
 /**
  * Ruta para crear un nuevo comercio.
- * URL: /commerces
+ * URL: 
  */
-router.post("/commerces", commerceValidators, commerceController.createCommerce);
+router.post("/", commerceValidators, commerceController.createCommerce);
 
 /**
  * Ruta para actualizar un comercio por su CIF.
- * URL: /commerces/:cif
+ * URL: /:cif
  */
-router.put("/commerces/:cif", [...cifValidator, ...commerceValidators], commerceController.updateCommerce);
+router.put("/:cif", [...cifValidator, ...commerceValidators], commerceController.updateCommerce);
 
 /**
  * Ruta para borrar un comercio por su CIF.
- * URL: /commerces/:cif?tipo=logico/fisico
+ * URL: /:cif?tipo=logico/fisico
  */
-router.delete("/commerces/:cif", [
+router.delete("/:cif", [
     ...cifValidator,
     query("tipo").isIn(["logico", "fisico"]).withMessage("El tipo debe ser 'logico' o 'fisico'.")
 ], commerceController.deleteCommerce);

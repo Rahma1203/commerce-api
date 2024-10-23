@@ -8,7 +8,9 @@ const reviewSchema = new mongoose.Schema({
 });
 
 // Esquema para la página web del comercio.
-const PaginaWeb = mongoose.model("WebPage", new mongoose.Schema({
+
+// Exportar el modelo.
+module.exports = mongoose.model("WebPage", new mongoose.Schema({
     ciudad: { type: String, required: true },
     actividad: { type: String, required: true },
     titulo: { type: String, required: true },
@@ -17,7 +19,4 @@ const PaginaWeb = mongoose.model("WebPage", new mongoose.Schema({
     imagenes: { type: [String], default: [] },
     resenas: reviewSchema,
     archivado: { type: Boolean, default: false }
-}));
-
-// Exportar el modelo.
-module.exports = PaginaWeb;
+}));;
