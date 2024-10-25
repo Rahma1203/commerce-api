@@ -19,7 +19,6 @@ exports.getAllCommerces = async (req, res) => {
 };
 
 // Obtener un comercio por su CIF.
-
 exports.getCommerceByCIF = async (req, res) => {
     try {
         const { cif } = req.params;
@@ -82,7 +81,7 @@ exports.deleteCommerce = async (req, res) => {
         if (tipo === "logico") {
             const comercio = await Commerce.findOneAndUpdate(
                 { cif },
-                { borradoLogico: true },
+                { archivado: true },
                 { new: true }
             );
 
