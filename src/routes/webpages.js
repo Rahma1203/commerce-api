@@ -3,6 +3,7 @@ const upload = require("../middlewares/upload");
 const webpageController = require("../controllers/webpageController");
 const { validateWebPage, validateImageUpload } = require("../validators/webpageValidators");
 
+
 const router = express.Router();
 
 // Obtener una página web por ID.
@@ -21,6 +22,9 @@ router.patch("/archive/:id", webpageController.archiveWebPage);
 router.delete("/:id", webpageController.deleteWebPage);
 
 // Subir una imagen al array de imágenes (con validación de imagen).
-router.patch("/uploadImage/:id", validateImageUpload, upload.single("image"), webpageController.uploadImage);
+router.patch("/uploadImage/:id",  upload.single("image"), validateImageUpload, webpageController.uploadImage)  
+    
+// subir reseñas de usuarios
+router.patch("/createReview/:id", webpageController.createReview);
 
 module.exports = router;

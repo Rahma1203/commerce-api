@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 // Esquema para las reseñas de usuarios.
 const reviewSchema = new mongoose.Schema({
-    puntuacion: { type: Number, min: 0, max: 5, required: true },
-    numeroPuntuaciones: { type: Number, required: true },
+    puntuacion: { type: Number, min: 0, max: 5, required: true , default: 0 },
+    numeroPuntuaciones: { type: Number, required: true, default: 0 },
     resenas: { type: [String], default: [] }
 });
 
@@ -19,4 +19,4 @@ module.exports = mongoose.model("WebPage", new mongoose.Schema({
     imagenes: { type: [String], default: [] },
     resenas: reviewSchema,
     archivado: { type: Boolean, default: false }
-}));;
+}));

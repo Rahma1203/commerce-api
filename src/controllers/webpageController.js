@@ -1,5 +1,8 @@
 const PaginaWeb = require("../models/WebPage");
 
+require('dotenv').config();
+
+
 // Obtener una página web por ID.
 exports.getWebPageById = async (req, res) => {
     try {
@@ -23,17 +26,42 @@ exports.createWebPage = async (req, res) => {
     }
 };
 
-// Actualizar una página web por ID.
+
 exports.updateWebPage = async (req, res) => {
     try {
-        const paginaActualizada = await PaginaWeb.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!paginaActualizada) return res.status(404).json({ message: "Página no encontrada." });
-        
-        return res.json(paginaActualizada);
+        const { id } = req.params;
+        const { imagenes: nuevasImagenes, ...camposActualizados } = req.body;
+
+        // Buscar la página web.
+        const paginaActual = await PaginaWeb.findById(id);
+        if (!paginaActual) {
+            return res.status(404).json({ message: "Página no encontrada." });
+        }
+
+        // Combinar las imágenes existentes con las nuevas.
+        if (nuevasImagenes && nuevasImagenes.length > 0) {
+            paginaActual.imagenes = [...paginaActual.imagenes, ...nuevasImagenes];
+        }
+
+        // Actualizar otros campos de la página.
+        Object.assign(paginaActual, camposActualizados);
+
+        // Guardar los cambios.
+        const paginaActualizada = await paginaActual.save();
+
+        return res.json({
+            message: "Página actualizada con éxito.",
+            pagina: paginaActualizada,
+        });
     } catch (error) {
-        return res.status(400).json({ message: "Error al actualizar la página.", error });
+        console.error("Error al actualizar la página:", error);
+        return res.status(500).json({
+            message: "Error al actualizar la página.",
+            error,
+        });
     }
 };
+
 
 // Archivar una página web (borrado lógico).
 exports.archiveWebPage = async (req, res) => {
@@ -60,21 +88,97 @@ exports.deleteWebPage = async (req, res) => {
     }
 };
 
-// Subir una imagen al array de imágenes.
+  
+exports.createReview = async (req, res) => {
+    try {
+        const { id } = req.params; // ID de la página web
+        const { puntuacion, resenas } = req.body.resenas; // Datos enviados desde el cliente
+        console.log("Cuerpo recibido:", req.body);
+
+        // Buscar la página web por su ID.
+        const paginaActual = await PaginaWeb.findById(id);
+        if (!paginaActual) {
+            return res.status(404).json({ message: "Página no encontrada." });
+        }
+      
+        // Validar puntuación.
+        if (puntuacion < 0 || puntuacion > 5) {
+            return res.status(400).json({ message: "La puntuación debe estar entre 0 y 5." });
+        }
+          console.log("Puntuación recibida:", puntuacion);
+          console.log(paginaActual.resenas.puntuacion, paginaActual.resenas.numeroPuntuaciones);
+        
+        // Agregar la nueva reseña
+        if (resenas) {
+            // Añadir las nuevas reseñas al array de reseñas
+            paginaActual.resenas.resenas = paginaActual.resenas.resenas.concat(resenas);
+        }
+        
+        // Actualizar la puntuación global.
+        if (puntuacion) {
+            // Calcular el total de puntuaciones y el nuevo promedio
+            const totalPuntuaciones = paginaActual.resenas.resenas.reduce((acc, current) => acc + current.puntuacion, 0) || 0;
+            const puntuacionPromedio = (totalPuntuaciones + puntuacion) / (paginaActual.resenas.resenas.length + 1);
+
+            // Actualizar el número de puntuaciones y el promedio de la puntuación
+            paginaActual.resenas.numeroPuntuaciones++;
+            paginaActual.resenas.puntuacion = puntuacionPromedio; // Guardar el promedio actualizado
+        }
+
+        console.log("Resenas recibidas:", paginaActual.resenas.resenas);
+
+        // Guardar los cambios en la base de datos.
+        const paginaActualizada = await paginaActual.save();
+        console.log("Página actualizada:", paginaActualizada);
+     
+        return res.json({
+            message: "Reseña añadida con éxito.",
+            pagina: paginaActualizada,
+        });
+    } catch (error) {
+        console.error("Error al añadir la reseña:", error);
+        return res.status(500).json({
+            message: "Error al añadir la reseña.",
+            error,
+        });
+    }
+};
+
+
+
+
+
 exports.uploadImage = async (req, res) => {
     try {
-        const webPage = await PaginaWeb.findById();
+        console.log("Inicio de uploadImage");
+        const id = req.params.id;
 
-        if (!webPage) return res.status(404).json({ message: "Página web no encontrada." });
-    
-        const imageURL = `/uploads/${req.file.filename}`;
+        // Construir la URL pública utilizando la variable de entorno.
+        const imageURL = `${process.env.PUBLIC_URL}/${req.file.filename}`;
+        console.log("URL de la imagen generada:", imageURL);
 
-        webPage.imagenes.push(imageURL); // Agregar la URL al array de imágenes.
-        await webPage.save(); // Guardar los cambios en la base de datos.
+        // Usar findOneAndUpdate para actualizar el array directamente.
+        const updatedWebPage = await PaginaWeb.findOneAndUpdate(
+            { _id: id },
+            { $push: { imagenes: imageURL } }, // Agregar al array de imágenes.
+            { new: true } // Retornar el documento actualizado.
+        );
 
-        return res.status(200).json({ message: "Imagen subida con éxito.", imageURL });
+        // Validar si la página fue encontrada.
+        if (!updatedWebPage) {
+            console.log("Página web no encontrada.");
+            return res.status(404).json({ message: "Página web no encontrada." });
+        }
+
+        console.log("Imagen agregada al array de imágenes:", updatedWebPage.imagenes);
+        console.log("Cambios guardados en la base de datos.");
+
+        return res.status(200).json({ 
+            message: "Imagen subida con éxito.", 
+            data: updatedWebPage 
+        });
     } catch (error) {
-        console.error(error);
+        console.error("Error en uploadImage:", error);
         return res.status(500).json({ message: "Error al subir la imagen." });
     }
 };

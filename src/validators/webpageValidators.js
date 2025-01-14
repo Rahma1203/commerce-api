@@ -20,6 +20,6 @@ exports.validateWebPageId = [
 
 // Validación para la subida de imágenes.
 exports.validateImageUpload = (req, res, next) => {
-    //if (!req.file) return res.status(400).json({ message: "Imagen no proporcionada." });
+    if (!req.file) return res.status(400).json({ message: "Imagen no proporcionada." });
     next();
 };

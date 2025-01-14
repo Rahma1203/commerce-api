@@ -1,6 +1,7 @@
 const multer = require("multer");
 
 const storage = multer.diskStorage({
+    
     destination: function (req, file, callback) { // Pasan argumentos automáticamente.
         callback(null, __dirname + "/../storage") // Error y destination
     },
