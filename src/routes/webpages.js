@@ -25,6 +25,6 @@ router.delete("/:id", webpageController.deleteWebPage);
 router.patch("/uploadImage/:id",  upload.single("image"), validateImageUpload, webpageController.uploadImage)  
     
 // subir reseñas de usuarios
-router.patch("/createReview/:id", webpageController.createReview);
+router.patch("/createReview/:id",validateWebPage, webpageController.createReview);
 
 module.exports = router;

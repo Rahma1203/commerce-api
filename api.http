@@ -60,7 +60,7 @@ Content-Type: application/json
 {
     
     "resenas": {
-        "puntuacion": 5,
+        "puntuacion": 4,
         "numeroPuntuaciones": 0,
         "resenas": ["Excelente servicio 2"]
     }
