@@ -1,5 +1,5 @@
 ### Variables
-@webPageId=67867aef9d743c2a302da8fb
+@webPageId=6786dbf9e9bd3d1aa5028f0b
 
 ### Obtener una página web por ID
 GET http://localhost:3000/api/webpages/{{webPageId}}
@@ -30,7 +30,7 @@ PUT http://localhost:3000/api/webpages/{{webPageId}}
 Content-Type: application/json
 
 {
-    "ciudad": "Madrid",
+    "ciudad": "Soria",
     "actividad": "Restaurante",
     "titulo": "Restaurante Ejemplo Actualizado",
     "resumen": "Actualización del restaurante con nuevos platos.",
@@ -60,7 +60,7 @@ Content-Type: application/json
 {
     
     "resenas": {
-        "puntuacion": 3,
+        "puntuacion": 5,
         "numeroPuntuaciones": 0,
         "resenas": ["Excelente servicio 2"]
     }

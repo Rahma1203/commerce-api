@@ -30,7 +30,7 @@ exports.createWebPage = async (req, res) => {
 exports.updateWebPage = async (req, res) => {
     try {
         const { id } = req.params;
-        const { imagenes: nuevasImagenes, ...camposActualizados } = req.body;
+        const { imagenes: nuevasImagenes,resenas: nuevasResenas, ...camposActualizados } = req.body;
 
         // Buscar la página web.
         const paginaActual = await PaginaWeb.findById(id);
@@ -41,6 +41,10 @@ exports.updateWebPage = async (req, res) => {
         // Combinar las imágenes existentes con las nuevas.
         if (nuevasImagenes && nuevasImagenes.length > 0) {
             paginaActual.imagenes = [...paginaActual.imagenes, ...nuevasImagenes];
+        }
+
+        if(nuevasResenas && nuevasResenas.length > 0) {
+            paginaActual.resenas.resenas = [...paginaActual.resenas.resenas, ...nuevasResenas];
         }
 
         // Actualizar otros campos de la página.
@@ -122,7 +126,7 @@ exports.createReview = async (req, res) => {
 
             // Actualizar el número de puntuaciones y el promedio de la puntuación
             paginaActual.resenas.numeroPuntuaciones++;
-            paginaActual.resenas.puntuacion = puntuacionPromedio; // Guardar el promedio actualizado
+            paginaActual.resenas.puntuacion = parseFloat(puntuacionPromedio.toFixed(2)); // Guardar el promedio actualizado
         }
 
         console.log("Resenas recibidas:", paginaActual.resenas.resenas);
