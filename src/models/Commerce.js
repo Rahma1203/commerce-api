@@ -8,7 +8,12 @@ const Comercio = mongoose.model("Comercio", new mongoose.Schema(
         email: { type: String, required: true },
         tel: { type: String, required: true },
         idPagina: { type: Number, required: true },
-        archivado: { type: Boolean, default: false }
+        archivado: { type: Boolean, default: false },
+        webPageId: { type: mongoose.Schema.Types.ObjectId, ref: 'PaginaWeb'}
+        
+
+        
+        
     }
 ));
 

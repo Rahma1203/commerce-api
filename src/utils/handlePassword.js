@@ -1,10 +1,13 @@
 const bcryptjs = require("bcryptjs")
+require('dotenv').config();
+
 
 const encrypt = async (clearPassword) => {
 
     // El número "Salt" otorga aleatoriedad a la función hash al combinarla con la password en claro.
-
+    console.log(" clearPassword:",clearPassword)
     const hash = await bcryptjs.hash(clearPassword, 10)
+    console.log(" hash:",hash)
     return hash
 
 }

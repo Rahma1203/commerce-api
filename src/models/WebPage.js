@@ -11,6 +11,7 @@ const reviewSchema = new mongoose.Schema({
 
 // Exportar el modelo.
 module.exports = mongoose.model("WebPage", new mongoose.Schema({
+
     ciudad: { type: String, required: true },
     actividad: { type: String, required: true },
     titulo: { type: String, required: true },

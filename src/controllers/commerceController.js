@@ -1,4 +1,7 @@
 const Commerce = require("../models/Commerce");
+const UserModel = require("../models/User")
+const PaginaWeb = require("../models/WebPage");
+const {tokenCommerce} = require("../utils/handleJwt");
 
 /**
  * Obtener la lista de comercios, opcionalmente ordenados por CIF ascendentemente.
@@ -7,14 +10,20 @@ const Commerce = require("../models/Commerce");
 exports.getAllCommerces = async (req, res) => {
     try {
         const { sort } = req.query;
-        let commerces;
+        const { role } = req.user;
+        let commerces; 
+
+        if (role !=="admin") return res.status(403).json({ message: "No tienes permiso para obtener comercios." }); //Solo el admin puede obtener los comercios
 
         if (sort === "cif") commerces = await Commerce.find().sort({ cif: 1 }); // Orden ascendente por CIF.
         else commerces = await Commerce.find(); // Sin orden específico.
 
+    
+
+
         return res.status(200).json(commerces);
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        return res.status(401).json({ message: error.message });
     }
 };
 
@@ -22,20 +31,41 @@ exports.getAllCommerces = async (req, res) => {
 exports.getCommerceByCIF = async (req, res) => {
     try {
         const { cif } = req.params;
+        const { role } = req.user;
+        if (role !=="admin") return res.status(403).json({ message: "No tienes permiso para obtener comercios." }); //Solo el admin puede obtener los comercios
+        
         const commerce = await Commerce.findOne({ cif });
-
         if (!commerce) return res.status(404).json({ message: "Comercio no encontrado." });
+          
 
-        return res.status(200).json(commerce);
+        await commerce.save();
+        const commerceToken = tokenCommerce({ cif: commerce.cif });
+
+        
+        return res.status(201).json({
+            commerce: commerce,
+            token: commerceToken // El token generado para el comercio
+        })
+
+        
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
 };
 
-// Guardar un nuevo comercio.
+// Crear comercio por un admin del sitio.
 exports.createCommerce = async (req, res) => {
     try {
+
+        const { role } = req.user;
+        if (role !=="admin") return res.status(403).json({ message: "No tienes permiso para crear comercios." });
+
         const { nombre, cif, direccion, email, tel, idPagina } = req.body;
+        // Verificar si el CIF ya existe
+        const existingCommerce = await Commerce.findOne({ cif });
+        if (existingCommerce) {
+        return res.status(400).json({ message: "El CIF ya existe." });
+         }
 
         const newCommerce = new Commerce({
             nombre,
@@ -43,15 +73,25 @@ exports.createCommerce = async (req, res) => {
             direccion,
             email,
             tel,
-            idPagina
+            idPagina,
+            
+        });
+        const saved = await newCommerce.save();
+        
+        const commerceToken = tokenCommerce({ cif: saved.cif });
+
+        
+        return res.status(201).json({
+            message: "Comercio creado con éxito",
+            commerce: newCommerce,
+            token: commerceToken // El token generado para el comercio
         });
 
-        await newCommerce.save();
-        return res.status(201).json(newCommerce);
+        
     } catch (error) {
         // Error de duplicado de clave única.
-        if (error.code === 11000) return res.status(400).json({ message: "El CIF ya existe." });
-        else return res.status(500).json({ message: error.message });
+        console.error("Error al crear comercio:", error);
+        res.status(500).json({ message: "Error al crear comercio.", error });
     }
 };
 
@@ -59,7 +99,9 @@ exports.createCommerce = async (req, res) => {
  
 exports.updateCommerce = async (req, res) => {
     try {
+        const { role } = req.user;
         const { cif } = req.params;
+        if (role !=="admin") return res.status(403).json({ message: "No tienes permiso para modificar comercios." });
         const updates = req.body;
 
         const updatedCommerce = await Commerce.findOneAndUpdate({ cif }, updates, { new: true });
@@ -76,7 +118,9 @@ exports.updateCommerce = async (req, res) => {
 exports.deleteCommerce = async (req, res) => {
     try {
         const { cif } = req.params;
-        const { tipo } = req.query;
+        const { tipo } = req.query; // El tipo de borrado puede ser "logico" o "fisico".
+        const { role } = req.user;
+        if (role !=="admin") return res.status(403).json({ message: "No tienes permiso para eliminar comercios." });
 
         if (tipo === "logico") {
             const comercio = await Commerce.findOneAndUpdate(
@@ -99,3 +143,6 @@ exports.deleteCommerce = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+

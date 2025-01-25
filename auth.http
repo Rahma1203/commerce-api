@@ -1,27 +1,47 @@
-POST http://localhost:3000/api/auth/register HTTP/1.1
 
+
+### register usuario
+POST http://localhost:3000/api/auth/register 
 Content-Type: application/json
 
 {
-
-"name": "Menganito",
-
-"age": 20,
-
-"email": "test10@test.com",
-
-"password": "HolaMundo.01"
-
+    "name": "Rahma",
+    "age": 20,
+    "city": "Madrid",
+    "interests": [],
+    "email": "Rahma1220112430@test.com",
+    "allowsReceivingOffers": true,
+    "password": "HolaMundo01"
 }
 
-###
+###Login usuario
 
-POST http://localhost:3000/api/auth/login HTTP/1.1
-
+POST http://localhost:3000/api/auth/login 
 Content-Type: application/json
 
 {
 
-"email": "test10@test.com",
+"email": "rahma@test.com",
+"password": "HolaMundo01" }
 
-"password": "HolaMundo.01" }
+
+
+### Editar/Actualizar usuario
+PUT http://localhost:3000/api/auth/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzg5Njk3YjFhNDU1Y2VhZDQyNDdjMzciLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzU1OTQzMywiZXhwIjoxNzM3NTY2NjMzfQ.DxSq5o5Am2G_M-_jCytkIUjN2U6L0zZmmStlJDHTG3k
+
+{
+    "name": "Menganitoo",
+    "age": 23,
+    "city": "Soria",
+    "interests": ["Restaurante"],
+    "email": "test110@test.com",
+    "allowsReceivingOffers":true,
+    "password": "HolaMundo01"
+}
+
+### Eliminar usuario 
+DELETE http://localhost:3000/api/auth/delete
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNWY3MjYxYTQwYzFmMWY1NDk2YjMiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzMxOTkzMSwiZXhwIjoxNzM3MzI3MTMxfQ.Lo1ikhF-gGInB1g-GRSJsQPF674m4muZWmJLn9oWW_U

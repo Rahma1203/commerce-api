@@ -1,22 +1,21 @@
-### Variables
-@webPageId=6786dbf9e9bd3d1aa5028f0b
 
-### Obtener una página web por ID
-GET http://localhost:3000/api/webpages/{{webPageId}}
+@webPageId = 678fede4d49e8a9f4356470d
+### Obtener una página web 
+GET http://localhost:3000/api/webpages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
 
 ### Crear una nueva página web
 POST http://localhost:3000/api/webpages
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
 
 {
     "ciudad": "Madrid",
     "actividad": "Restaurante",
     "titulo": "Restaurante Ejemplo",
     "resumen": "Un delicioso restaurante en el corazón de la ciudad.",
-    "textos": [
-        "Texto de ejemplo 1",
-        "Texto de ejemplo 2"
-    ],
+    "textos": [],
     "imagenes": [],
     "resenas": {
         "puntuacion":0 ,
@@ -26,18 +25,16 @@ Content-Type: application/json
 }
 
 ### Actualizar una página web
-PUT http://localhost:3000/api/webpages/{{webPageId}}
+PUT http://localhost:3000/api/webpages
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
 
 {
     "ciudad": "Soria",
     "actividad": "Restaurante",
     "titulo": "Restaurante Ejemplo Actualizado",
     "resumen": "Actualización del restaurante con nuevos platos.",
-    "textos": [
-        "Texto actualizado 1",
-        "Texto actualizado 2"
-    ],
+    "textos": [],
     "imagenes": [],
     "resenas": {
         "puntuacion":0 ,
@@ -46,11 +43,26 @@ Content-Type: application/json
     }
 }
 
-### Archivar una página web
-PATCH http://localhost:3000/api/webpages/archive/{{webPageId}}
 
-### Eliminar una página web
-DELETE http://localhost:3000/api/webpages/{{webPageId}}
+### Subir textos a la pagina web
+PATCH http://localhost:3000/api/webpages/updateText
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+
+
+{
+    "textos":["Text1"]
+}
+
+### Archivar una página web
+PATCH http://localhost:3000/api/webpages/archive
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+
+DELETE http://localhost:3000/api/webpages 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+
 
 ### Reseñas y puntuacion (usuarios)
 
@@ -60,56 +72,81 @@ Content-Type: application/json
 {
     
     "resenas": {
-        "puntuacion": 4,
+        "puntuacion": 5,
         "numeroPuntuaciones": 0,
         "resenas": ["Excelente servicio 2"]
     }
 }
 
 ### Subir una imagen al array de imágenes de una página web
-PATCH http://localhost:3000/api/webpages/uploadImage/{{webPageId}}
+PATCH http://localhost:3000/api/webpages/uploadImage
 Content-Type: multipart/form-data; boundary=Boundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
 
 --Boundary
 Content-Disposition: form-data; name="image"; filename="exampleUpload.jpg"
 Content-Type: image/jpeg
 
+
+
+
 < ./src/tests/examplesFiles/exampleUpload.jpg
 --Boundary--
 
+
+
+###--- COMERCIOS---
+
+### Obtener interesados (usando el token del comercio (crear la pagina antes))
+GET http://localhost:3000/api/webpages/interests
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQlMxMjM0NSIsImlhdCI6MTczNzU3MTM0OSwiZXhwIjoxNzM3NTc4NTQ5fQ.cAB0BYE9UCN92BXeu9h95TKBTJKKEEpCDyT5RmmQz88
+
 ### Obtener todos los comercios
 GET http://localhost:3000/api/commerces
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
 
 ### Obtener todos los comercios ordenados por CIF
 GET http://localhost:3000/api/commerces?sort=cif
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
 
-### Obtener un comercio por CIF
-GET http://localhost:3000/api/commerces/ABC12345
 
-### Crear un nuevo comercio
+### Obtener un comercio por CIF 
+GET http://localhost:3000/api/commerces/ABI12345
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
+
+## Crear comercio 
 POST http://localhost:3000/api/commerces
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
 
 {
     "nombre": "Comercio Ejemplo",
-    "cif": "ABC12345",
+    "cif": "ABI2345",
     "direccion": "Calle Falsa 123",
     "email": "contacto@comercioejemplo.com",
-    "tel": "123456789",
+    "tel": "123056789",
     "idPagina": 1
 }
 
 ### Actualizar un comercio por CIF
-PUT http://localhost:3000/api/commerces/ABC12345
+PUT http://localhost:3000/api/commerces/update/ABI12345
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
 
 {
-    "direccion": "Avenida Siempre Viva 742",
+    "direccion": "Avenida Siempre Viva 745",
     "tel": "987654321"
 }
 
 ### Borrar un comercio lógicamente
-DELETE http://localhost:3000/api/commerces/ABC12345?tipo=logico
+DELETE http://localhost:3000/api/commerces/ABI12345?tipo=logico
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
 
 ### Borrar un comercio físicamente
-DELETE http://localhost:3000/api/commerces/ABC12345?tipo=fisico
+DELETE http://localhost:3000/api/commerces/ABM12345?tipo=fisico
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
