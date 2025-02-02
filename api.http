@@ -1,33 +1,46 @@
 
-@webPageId = 678fede4d49e8a9f4356470d
-### Obtener una página web 
+@webPageId = 679f704157844a85c662416c
+
+### USUARIOS PÚBLICOS
+
+### Obtener una página web
+GET http://localhost:3000/api/webpages/{{webPageId}}
+
+### Obtener todas las paginas web
 GET http://localhost:3000/api/webpages
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+
+### Obtener todas las paginas por scoring
+
+GET http://localhost:3000/api/webpages?puntuacion=true
+
+### Obtener página/s por ciudad
+GET http://localhost:3000/api/webpages/ciudad/Soria
+
+### Obtener página/s por ciudad y actividad
+GET http://localhost:3000/api/webpages/ciudad/Soria/actividad/Restaurante
+
+#PAGINASWEB POR COMERCIO
 
 ### Crear una nueva página web
 POST http://localhost:3000/api/webpages
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQlMyMzQ1IiwiaWF0IjoxNzM4NTI1MzU5LCJleHAiOjE3Mzg1MzI1NTl9.zCBgOQetZpUk0r4_9RvsKxj-qajRqfRmGtGRNFTk1Qg
 
 {
-    "ciudad": "Madrid",
-    "actividad": "Restaurante",
-    "titulo": "Restaurante Ejemplo",
-    "resumen": "Un delicioso restaurante en el corazón de la ciudad.",
+    "ciudad": "Lugo",
+    "actividad": "Servicio",
+    "titulo": "Servicio Ejemplo",
+    "resumen": "Servicio al mejor precio",
     "textos": [],
-    "imagenes": [],
-    "resenas": {
-        "puntuacion":0 ,
-        "numeroPuntuaciones":0,
-        "resenas": []
-    }
+    "imagenes": []
+   
+
 }
 
 ### Actualizar una página web
 PUT http://localhost:3000/api/webpages
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQlMxMjM0NSIsImlhdCI6MTczODAwMDkzNCwiZXhwIjoxNzM4MDA4MTM0fQ.V6gxC1LTzR1Px2yY0yfT8oAcPDKLOzzLbYgi4FhIQQU
 
 {
     "ciudad": "Soria",
@@ -35,53 +48,46 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0N
     "titulo": "Restaurante Ejemplo Actualizado",
     "resumen": "Actualización del restaurante con nuevos platos.",
     "textos": [],
-    "imagenes": [],
-    "resenas": {
-        "puntuacion":0 ,
-        "numeroPuntuaciones": 0,
-        "resenas": []
-    }
+    "imagenes": []
+
 }
 
 
 ### Subir textos a la pagina web
 PATCH http://localhost:3000/api/webpages/updateText
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzkwNzM1MywiZXhwIjoxNzM3OTE0NTUzfQ.HtzO3ZPJrrlvmNLMrPtuqj-NnU8w9jjplNvaBHinOIg
 
 {
     "textos":["Text1"]
 }
 
 ### Archivar una página web
-PATCH http://localhost:3000/api/webpages/archive
+PATCH   http://localhost:3000/api/webpages/archive
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzkwNzM1MywiZXhwIjoxNzM3OTE0NTUzfQ.HtzO3ZPJrrlvmNLMrPtuqj-NnU8w9jjplNvaBHinOIg
 
+### Eliminar páginaweb
 DELETE http://localhost:3000/api/webpages 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQlMxMjM0NSIsImlhdCI6MTczODAwMDkzNCwiZXhwIjoxNzM4MDA4MTM0fQ.V6gxC1LTzR1Px2yY0yfT8oAcPDKLOzzLbYgi4FhIQQU
 
 ### Reseñas y puntuacion (usuarios)
-
 PATCH http://localhost:3000/api/webpages/createReview/{{webPageId}}
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk2YzFhYjcyZTVjYjFiNzQyOWRlZjYiLCJyb2xlIjoidXNlciIsImlhdCI6MTczODAwNzU1MCwiZXhwIjoxNzM4MDE0NzUwfQ.eooNXOiUCmKm_rHhesKeyk9Ci7-ttr36kgq2L-cCf2o
 
-{
+    {
+    "puntuacion": 2,
+    "comentario": "Excelente servicio 2"
+        }
+      
     
-    "resenas": {
-        "puntuacion": 5,
-        "numeroPuntuaciones": 0,
-        "resenas": ["Excelente servicio 2"]
-    }
-}
 
 ### Subir una imagen al array de imágenes de una página web
 PATCH http://localhost:3000/api/webpages/uploadImage
 Content-Type: multipart/form-data; boundary=Boundary
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzgwMTcwMCwiZXhwIjoxNzM3ODA4OTAwfQ.uHVcudCJeqP2CBleqp_5622hQehmOPGz_XqHgvMqjtA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQlMyMzQ1IiwiaWF0IjoxNzM4NTI4MTI2LCJleHAiOjE3Mzg1MzUzMjZ9.JJtiT4l6r_XwuLQu_ZK72KH_HHBcvOD-QIER_ZC0WxI
 
 --Boundary
 Content-Disposition: form-data; name="image"; filename="exampleUpload.jpg"
@@ -95,36 +101,41 @@ Content-Type: image/jpeg
 
 
 
-###--- COMERCIOS---
+###--- COMERCIOS--- 
 
 ### Obtener interesados (usando el token del comercio (crear la pagina antes))
-GET http://localhost:3000/api/webpages/interests
+GET http://localhost:3000/api/webpages/interests/ciudad/soria
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQlMxMjM0NSIsImlhdCI6MTczNzU3MTM0OSwiZXhwIjoxNzM3NTc4NTQ5fQ.cAB0BYE9UCN92BXeu9h95TKBTJKKEEpCDyT5RmmQz88
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQlQyMzQ1IiwiaWF0IjoxNzM4NTAyNjM4LCJleHAiOjE3Mzg1MDk4Mzh9.Zd1eOuJm8lDn-bayQO0LHpVOe-Pcrfq7-ku7LPGVX3U
+
+### Enviar email
+POST http://localhost:3000/api/email/send
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWYiOiJBQkkxMjM0NSIsImlhdCI6MTczNzk2MTM3MiwiZXhwIjoxNzM3OTY4NTcyfQ.xf5Mymb-4ae7NvfU6I2aVS5rDeoCy6l5TtxW1qTT_3U
+
 
 ### Obtener todos los comercios
 GET http://localhost:3000/api/commerces
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc5OTk3OTcsImV4cCI6MTczODAwNjk5N30.-Lzr8E_ZouqqqrTaogvhTaP4_6NMezGtO-me5Ze_UC8
 
 ### Obtener todos los comercios ordenados por CIF
 GET http://localhost:3000/api/commerces?sort=cif
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc5OTk3OTcsImV4cCI6MTczODAwNjk5N30.-Lzr8E_ZouqqqrTaogvhTaP4_6NMezGtO-me5Ze_UC8
 
 ### Obtener un comercio por CIF 
-GET http://localhost:3000/api/commerces/ABI12345
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
+GET http://localhost:3000/api/commerces/ABS2345
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk5MWY3ODc2N2Q4YTdkY2Q5N2FkM2UiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzg1MjUzMjYsImV4cCI6MTczODUzMjUyNn0.0x7i2il0vKpgdG4o75as3zbLBrlDSGsC8Ild-HdrFnU
 
-## Crear comercio 
+### Crear comercio 
 POST http://localhost:3000/api/commerces
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk5MWY3ODc2N2Q4YTdkY2Q5N2FkM2UiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzg0NDUyMTQsImV4cCI6MTczODQ1MjQxNH0.fJqKiFFQnh6ssqxJ0m3K64ry0wsnVPLoW27QjgxqRew
 
 {
     "nombre": "Comercio Ejemplo",
-    "cif": "ABI2345",
+    "cif": "ABT2345",
     "direccion": "Calle Falsa 123",
     "email": "contacto@comercioejemplo.com",
     "tel": "123056789",
@@ -134,7 +145,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1Z
 ### Actualizar un comercio por CIF
 PUT http://localhost:3000/api/commerces/update/ABI12345
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc3OTkzNzgsImV4cCI6MTczNzgwNjU3OH0.Oj2991MbzbtVKK_FNJeiPFIX2eTqNXNKnO7EOwbIRnQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNDE1ZWY1OGQ3ZjU2ZGIxOGZjZTEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc5MjAyMDgsImV4cCI6MTczNzkyNzQwOH0.awb1xXUUQgYrYbwMuxmvkNZK4zUlAxWGv34KVkHySjM
 
 {
     "direccion": "Avenida Siempre Viva 745",

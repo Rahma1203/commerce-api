@@ -6,76 +6,64 @@ const { authMiddleware } = require("../middlewares/auth")
 
 const router = express.Router();
 
-/**
- * @swagger
- * /commerces:
- *   get:
- *     summary: Obtener todos los comercios
- *     description: Esta ruta devuelve una lista de todos los comercios en el sistema, con posibilidad de ordenarlos según el parámetro enviado.
- *     tags:
- *       - Comercios
- *     security:
- *       - bearerAuth: []  # Autenticación requerida
- *     parameters:
- *       - in: query
- *         name: sort
- *         required: false
- *         schema:
- *           type: string
- *           description: Parámetro opcional para ordenar la lista de comercios.
- *     responses:
- *       200:
- *         description: Lista de comercios obtenida con éxito.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Commerce'
- *       401:
- *         description: No autorizado. Se requiere un token de autenticación válido.
- *       500:
- *         description: Error interno del servidor.
- */
-router.get("/", authMiddleware, sortValidator, commerceController.getAllCommerces);
-
 
 /**
  * @openapi
- * /commerces/{cif}:
+ * /:
  *   get:
- *     summary: Obtener un comercio por CIF
  *     tags:
  *       - Comercios
+ *     summary: Obtener todos los comercios
+ *     description: Devuelve todos los comercios registrados.
  *     security:
  *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de comercios
+ *       401:
+ *         description: No autorizado
+ *       500:
+ *         description: Error en el servidor
+ */
+router.get("/", authMiddleware, sortValidator, commerceController.getAllCommerces);
+
+/**
+ * @openapi
+ * /{cif}:
+ *   get:
+ *     tags:
+ *       - Comercios
+ *     summary: Obtener un comercio por CIF
+ *     description: Devuelve los detalles de un comercio utilizando su CIF.
  *     parameters:
  *       - in: path
  *         name: cif
  *         required: true
  *         schema:
  *           type: string
+ *         description: CIF del comercio
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Detalles del comercio
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Comercio'
+ *         description: Comercio encontrado
+ *       400:
+ *         description: CIF no válido
  *       404:
  *         description: Comercio no encontrado
- *       401:
- *         description: No autorizado
+ *       500:
+ *         description: Error en el servidor
  */
 router.get("/:cif", authMiddleware, cifValidator, commerceController.getCommerceByCIF);
 
 /**
  * @openapi
- * /commerces:
+ * /:
  *   post:
- *     summary: Crear un nuevo comercio
  *     tags:
  *       - Comercios
+ *     summary: Crear un nuevo comercio
+ *     description: Permite registrar un nuevo comercio.
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -87,32 +75,32 @@ router.get("/:cif", authMiddleware, cifValidator, commerceController.getCommerce
  *     responses:
  *       201:
  *         description: Comercio creado exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Comercio'
  *       400:
- *         description: Error en los datos
+ *         description: Datos no válidos
  *       401:
  *         description: No autorizado
+ *       500:
+ *         description: Error en el servidor
  */
-router.post("/", authMiddleware, commerceValidators, commerceController.createCommerce); 
+router.post("/", authMiddleware, commerceValidators, commerceController.createCommerce);
 
 /**
  * @openapi
- * /commerces/update/{cif}:
+ * /update/{cif}:
  *   put:
- *     summary: Actualizar un comercio
  *     tags:
  *       - Comercios
- *     security:
- *       - bearerAuth: []
+ *     summary: Actualizar un comercio
+ *     description: Permite actualizar los detalles de un comercio existente usando su CIF.
  *     parameters:
  *       - in: path
  *         name: cif
  *         required: true
  *         schema:
  *           type: string
+ *         description: CIF del comercio
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -123,44 +111,55 @@ router.post("/", authMiddleware, commerceValidators, commerceController.createCo
  *       200:
  *         description: Comercio actualizado exitosamente
  *       400:
- *         description: Error en los datos
+ *         description: Datos no válidos
+ *       404:
+ *         description: Comercio no encontrado
  *       401:
  *         description: No autorizado
+ *       500:
+ *         description: Error en el servidor
  */
 router.put("/update/:cif", authMiddleware, [...cifValidator, ...commerceValidators], commerceController.updateCommerce);
 
 /**
  * @openapi
- * /commerces/{cif}:
+ * /{cif}:
  *   delete:
- *     summary: Borrar un comercio
  *     tags:
  *       - Comercios
- *     security:
- *       - bearerAuth: []
+ *     summary: Eliminar un comercio
+ *     description: Elimina un comercio utilizando su CIF.
  *     parameters:
  *       - in: path
  *         name: cif
  *         required: true
  *         schema:
  *           type: string
+ *         description: CIF del comercio
  *       - in: query
  *         name: tipo
  *         required: true
  *         schema:
  *           type: string
- *           enum: [logico, fisico]
+ *         description: El tipo de eliminación (logico o fisico)
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Comercio borrado exitosamente
+ *         description: Comercio eliminado exitosamente
  *       400:
- *         description: Error en los datos
+ *         description: CIF no válido o tipo incorrecto
+ *       404:
+ *         description: Comercio no encontrado
  *       401:
  *         description: No autorizado
+ *       500:
+ *         description: Error en el servidor
  */
 router.delete("/:cif", authMiddleware, [
     ...cifValidator,
     query("tipo").isIn(["logico", "fisico"]).withMessage("El tipo debe ser 'logico' o 'fisico'.")
 ], commerceController.deleteCommerce);
+
 
 module.exports = router;

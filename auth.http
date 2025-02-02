@@ -1,47 +1,47 @@
 
 
 ### register usuario
-POST http://localhost:3000/api/auth/register 
+POST http://localhost:3000/api/user/register 
 Content-Type: application/json
 
 {
-    "name": "Rahma",
-    "age": 20,
-    "city": "Madrid",
-    "interests": [],
-    "email": "Rahma1220112430@test.com",
-    "allowsReceivingOffers": true,
+    "nombre": "Rahma",
+    "edad": 20,
+    "ciudad": "Soria",
+    "interests": ["Restaurante"],
+    "email": "2@test.com",
+    "permiteRecibirOfertas": true,
     "password": "HolaMundo01"
 }
 
 ###Login usuario
 
-POST http://localhost:3000/api/auth/login 
+POST http://localhost:3000/api/user/login 
 Content-Type: application/json
 
 {
 
-"email": "rahma@test.com",
+"email": "2@test.com",
 "password": "HolaMundo01" }
 
 
 
 ### Editar/Actualizar usuario
-PUT http://localhost:3000/api/auth/update
+PUT http://localhost:3000/api/user/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzg5Njk3YjFhNDU1Y2VhZDQyNDdjMzciLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzU1OTQzMywiZXhwIjoxNzM3NTY2NjMzfQ.DxSq5o5Am2G_M-_jCytkIUjN2U6L0zZmmStlJDHTG3k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzlkMTM3OGU2ZWQ4N2I5YjMwNWUzN2IiLCJyb2xlIjoidXNlciIsImlhdCI6MTczODUwMjc0NiwiZXhwIjoxNzM4NTA5OTQ2fQ.tZ3f7eZYPsaX-JjBdIRkyRJJKlIp-St-uWvxC-W0mac
 
 {
-    "name": "Menganitoo",
-    "age": 23,
-    "city": "Soria",
-    "interests": ["Restaurante"],
-    "email": "test110@test.com",
-    "allowsReceivingOffers":true,
+    "nombre": "Lucas",
+    "edad": 23,
+    "ciudad": "soria",
+    "interests": ["restaurante"],
+    "email": "2@test.com",
+    "permiteRecibirOfertas":true,
     "password": "HolaMundo01"
 }
 
 ### Eliminar usuario 
-DELETE http://localhost:3000/api/auth/delete
+DELETE http://localhost:3000/api/user/delete
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhkNWY3MjYxYTQwYzFmMWY1NDk2YjMiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNzMxOTkzMSwiZXhwIjoxNzM3MzI3MTMxfQ.Lo1ikhF-gGInB1g-GRSJsQPF674m4muZWmJLn9oWW_U

@@ -1,17 +1,18 @@
 const express = require("express")
-const {validatorRegister,  validatorLogin, validatorUpdate } = require("../validators/auth")
-const { registerCtrl, loginCtrl,UpdateUserCtrl,deleteUserCtrl } = require("../controllers/auth")
+const {validatorRegister,  validatorLogin} = require("../validators/auth")
+const { registerCtrl, loginCtrl,UpdateUserCtrl,deleteUserCtrl } = require("../controllers/user")
 const { authMiddleware } = require("../middlewares/auth")
 
 const router = express.Router()
 
+
 /**
  * @openapi
- * /auth/register:
+ * /user/register:
  *   post:
- *     summary: Registrar nuevo usuario
  *     tags:
  *       - Autenticación
+ *     summary: Registrar nuevo usuario
  *     requestBody:
  *       required: true
  *       content:
@@ -22,17 +23,17 @@ const router = express.Router()
  *       201:
  *         description: Usuario registrado exitosamente
  *       400:
- *         description: Error en los datos de registro
+ *         description: Error en la validación de datos
  */
 router.post("/register", validatorRegister, registerCtrl)
 
 /**
  * @openapi
- * /auth/login:
+ * /user/login:
  *   post:
- *     summary: Iniciar sesión
  *     tags:
  *       - Autenticación
+ *     summary: Iniciar sesión
  *     requestBody:
  *       required: true
  *       content:
@@ -49,7 +50,14 @@ router.post("/register", validatorRegister, registerCtrl)
  *                 type: string
  *     responses:
  *       200:
- *         description: Inicio de sesión exitoso
+ *         description: Login exitoso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
  *       401:
  *         description: Credenciales inválidas
  */
@@ -57,11 +65,11 @@ router.post("/login", validatorLogin, loginCtrl)
 
 /**
  * @openapi
- * /auth/update:
+ * /user/update:
  *   put:
- *     summary: Actualizar usuario
  *     tags:
  *       - Autenticación
+ *     summary: Actualizar usuario
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -75,18 +83,16 @@ router.post("/login", validatorLogin, loginCtrl)
  *         description: Usuario actualizado exitosamente
  *       401:
  *         description: No autorizado
- *       400:
- *         description: Error en los datos de actualización
  */
-router.put("/update", authMiddleware, validatorUpdate, UpdateUserCtrl)
+router.put("/update", authMiddleware, validatorRegister, UpdateUserCtrl)
 
 /**
  * @openapi
- * /auth/delete:
+ * /user/delete:
  *   delete:
- *     summary: Eliminar usuario
  *     tags:
  *       - Autenticación
+ *     summary: Eliminar usuario
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -96,5 +102,4 @@ router.put("/update", authMiddleware, validatorUpdate, UpdateUserCtrl)
  *         description: No autorizado
  */
 router.delete("/delete", authMiddleware, deleteUserCtrl)
-
 module.exports = router

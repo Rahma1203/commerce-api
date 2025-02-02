@@ -20,7 +20,6 @@ exports.registerCtrl = async (req, res) => {
        
         let data = matchedData(req);
         data.password = await encrypt(data.password);
-
         const dataUser = await usersModel.create(data);
 
         
@@ -43,19 +42,19 @@ exports.loginCtrl = async (req, res) => {
         const user = await usersModel.findOne({ email: req.body.email }).select("password name role email");
         
         if(!user){
-            handleHttpError(res, "USER_NOT_EXISTS", 404);
+            handleHttpError(res, "USER_NOT_EXISTS");
             return;
         }
         
         const hashPassword = user.password;
         const check = await compare(req.body.password, hashPassword);
         if(!check){
-            handleHttpError(res, "INVALID_PASSWORD", 401);
+            handleHttpError(res, "INVALID_PASSWORD");
             return;
         }
         
        
-        return  res.status(201).json({
+        return  res.status(200).json({
             token: await tokenSign(user),
             user
         });
@@ -125,10 +124,7 @@ exports.UpdateUserCtrl = async (req, res) => {
 // Eliminar el usuario
 exports.deleteUserCtrl = async (req, res) => {
   try {
-    console.log("Datos recibidos:", req.body);
-    console.log("Headers:", req.headers);  
-    console.log("User from middleware:", req.user); 
-    console.log("Token:", req.headers.authorization);  
+ 
     
     // Obtener el _id del usuario 
     const _id = req.user._id;  

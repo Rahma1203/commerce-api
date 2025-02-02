@@ -1,14 +1,15 @@
 const mongoose = require("mongoose")
-const mongooseDelete = require("mongoose-delete") 
+
 
 const UserScheme = new mongoose.Schema(
     {
-        name: {type: String},
-        age: {type: Number},
-        email: {type: String,unique: true},
+        nombre: {type: String},
+        edad: {type: Number},
+        ciudad: {type: String,required: true,lowercase: true,index: true},
+        email: {type: String,unique: true,lowercase: true,required: true},
         password: {type: String },//Save the HASH
-        interests: {type: [String], default:[]},
-        allowsReceivingOffers: {type: Boolean},
+        interests: {type: [String], default:[],index: true},
+        permiteRecibirOfertas: {type: Boolean, default: false,index: true},
         role: {type: String,enum: ["user", "admin"],default: "user"}
     },
     {
@@ -17,6 +18,6 @@ const UserScheme = new mongoose.Schema(
     }
 )
 
-UserScheme.plugin(mongooseDelete, {overrideMethods: "all"})
+
 
 module.exports = mongoose.model("Users", UserScheme) ;

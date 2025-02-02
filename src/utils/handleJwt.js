@@ -15,8 +15,7 @@ const verifyToken = (tokenJwt) => {
         return jwt.verify(tokenJwt, JWT_SECRET);
     } catch (err) {
         console.error("Error verificando el token JWT:", err);
-        return null;
-    }
+        throw new Error("Token inválido"); }
 };
 
 module.exports = {tokenSign, verifyToken, tokenCommerce};

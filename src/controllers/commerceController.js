@@ -1,6 +1,4 @@
 const Commerce = require("../models/Commerce");
-const UserModel = require("../models/User")
-const PaginaWeb = require("../models/WebPage");
 const {tokenCommerce} = require("../utils/handleJwt");
 
 /**
@@ -31,24 +29,24 @@ exports.getAllCommerces = async (req, res) => {
 exports.getCommerceByCIF = async (req, res) => {
     try {
         const { cif } = req.params;
+        
         const { role } = req.user;
         if (role !=="admin") return res.status(403).json({ message: "No tienes permiso para obtener comercios." }); //Solo el admin puede obtener los comercios
         
         const commerce = await Commerce.findOne({ cif });
         if (!commerce) return res.status(404).json({ message: "Comercio no encontrado." });
           
-
-        await commerce.save();
         const commerceToken = tokenCommerce({ cif: commerce.cif });
 
         
-        return res.status(201).json({
+        return res.status(200).json({
             commerce: commerce,
             token: commerceToken // El token generado para el comercio
         })
 
         
     } catch (error) {
+        console.error(error);           
         return res.status(500).json({ message: error.message });
     }
 };
@@ -81,7 +79,7 @@ exports.createCommerce = async (req, res) => {
         const commerceToken = tokenCommerce({ cif: saved.cif });
 
         
-        return res.status(201).json({
+        return res.status(200).json({
             message: "Comercio creado con éxito",
             commerce: newCommerce,
             token: commerceToken // El token generado para el comercio
@@ -108,7 +106,10 @@ exports.updateCommerce = async (req, res) => {
 
         if (!updatedCommerce) return res.status(404).json({ message: "Comercio no encontrado." });
 
-        return res.status(200).json(updatedCommerce);
+        return res.status(200).json({
+            message: "Comercio actualizado con éxito", 
+            commerce: updatedCommerce
+        });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }

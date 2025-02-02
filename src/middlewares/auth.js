@@ -16,16 +16,15 @@ exports.authMiddleware = async (req, res, next) => {
     console.log("Token decodificado:", decoded); 
     
     if (!decoded) {
-      return res.status(401).json({ error: "Token inválido" });
-      
-    }
+      return res.status(401).json({ error: "Error de autenticación" });
+   }
+   
 
     // Agregar la información del usuario decodificada a req.user
     req.user = decoded;
     
     next();
   } catch (error) {
-    console.error("Error en autenticación:", error);
     res.status(401).json({ error: "Error de autenticación" });
   }
 };
